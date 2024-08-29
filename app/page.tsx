@@ -13,8 +13,8 @@ export default function Home() {
     router.replace("/login");
   }, [router]);
   return (
-    <main className="flex">
-
+    <main>
+    
     </main>
   );
 }
