@@ -2,7 +2,7 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Select, SelectContent, SelectGroup, SelectItem,SelectTrigger, SelectValue } from '@/components/ui/select'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 
@@ -51,7 +51,7 @@ const Signup = (props: Props) => {
           <Button
             onClick={() => router.push("/signup")}
             className='w-full'
-          >Login</Button>
+          >Signup</Button>
         </div>
 
       </div>
