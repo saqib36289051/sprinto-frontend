@@ -13,8 +13,7 @@ const Login = (props: Props) => {
     const router = useRouter()
     const [email, setEmail] = React.useState("")
     const [password, setPassword] = React.useState("")
-    const [login, { data, error, isLoading, status }] = useLoginMutation()
-    console.log("🚀 ~ Login ~ error:", error)
+    const [login, { data, error, isLoading }] = useLoginMutation()
     const { addData } = useLocalStorage()
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -23,7 +22,7 @@ const Login = (props: Props) => {
             const result = await login({ email, password })
             if (result?.data?.success) {
                 await addData("user", result.data.loginUser)
-                router.replace("/")
+                router.replace("/main-page")
             }
         } catch (error) {
             console.log("🚀 ~ handleSubmit ~ error:", error)
@@ -37,24 +36,26 @@ const Login = (props: Props) => {
                 <div className='flex flex-col items-center mb-6'>
                     <h1 className='text-3xl font-bold text-gray-900'>Login</h1>
                 </div>
-                <div className='mb-4'>
-                    <Label htmlFor="email" className='block text-sm font-medium'>Email</Label>
-                    <Input placeholder='Email' className='mt-1' value={email} onChange={(e) => setEmail(e.target.value)} />
-                    {error?.data?.fields?.email && <p className='text-red-500 text-xs mt-1'>{error?.data?.fields?.email}</p>}
-                </div>
-                <div className='mb-4'>
-                    <Label className='block text-sm font-medium'>Password</Label>
-                    <Input placeholder='Password' type='password' className='mt-1' value={password} onChange={(e) => setPassword(e.target.value)} />
-                    {error?.data?.fields?.password && <p className='text-red-500 text-xs mt-1'>{error?.data?.fields?.password}</p>}
-                </div>
-                <div className='flex w-full mb-2'>
-                    <Button
-                        onClick={handleSubmit}
-                        className='w-full'
-                    >
-                        {isLoading ? "Loading..." : "Login"}
-                    </Button>
-                </div>
+                <form onSubmit={handleSubmit} className='space-y-4'>
+                    <div>
+                        <Label htmlFor="email" className='block text-sm font-medium'>Email</Label>
+                        <Input id='email' placeholder='Email' className='mt-1' value={email} onChange={(e) => setEmail(e.target.value)} />
+                        {error?.data?.fields?.email && <p className='text-red-500 text-xs mt-1'>{error?.data?.fields?.email}</p>}
+                    </div>
+                    <div>
+                        <Label className='block text-sm font-medium'>Password</Label>
+                        <Input id='password' placeholder='Password' type='password' className='mt-1' value={password} onChange={(e) => setPassword(e.target.value)} />
+                        {error?.data?.fields?.password && <p className='text-red-500 text-xs mt-1'>{error?.data?.fields?.password}</p>}
+                    </div>
+                    <div className='flex w-full mb-2'>
+                        <Button
+                            type='submit'
+                            className='w-full'
+                        >
+                            {isLoading ? "Loading..." : "Login"}
+                        </Button>
+                    </div>
+                </form>
 
             </div>
         </div>
