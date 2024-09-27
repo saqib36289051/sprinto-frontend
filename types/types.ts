@@ -9,3 +9,13 @@ export type UserType = {
   updatedAt: string;
   token: string | null;
 };
+
+export type ProjectType = {
+  id: string;
+  name: string;
+  description: string;
+  createdAt: string;
+  createdBy: string;
+  updatedAt: string;
+  members: [];
+};
