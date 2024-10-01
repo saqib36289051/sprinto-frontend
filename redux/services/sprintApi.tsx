@@ -2,8 +2,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL } from "@/redux";
 import useLocalStorage from "@/hooks/useLocalStorage";
 
-export const projectApi = createApi({
-  reducerPath: "projectApi",
+export const sprintApi = createApi({
+  reducerPath: "sprintApi",
   tagTypes: ["Sprinto"],
   baseQuery: fetchBaseQuery({
     baseUrl: BASE_URL,
@@ -18,24 +18,24 @@ export const projectApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    createProject: builder.mutation({
+    createSprint: builder.mutation({
       query: (credentials) => ({
-        url: "/project",
+        url: `/sprint/${credentials.projectId}`,
         method: "POST",
         body: credentials,
       }),
       invalidatesTags: ["Sprinto"],
     }),
-    projectList: builder.query({
-      query: () => ({
-        url: "/project",
+    sprintList: builder.query({
+      query: (id) => ({
+        url: `/sprint/${id}`,
         method: "GET",
       }),
       providesTags: ["Sprinto"],
     }),
-    getProjectById: builder.query({
+    getSprintsById: builder.query({
       query: (id) => ({
-        url: `/project/${id}`,
+        url: `/sprint/${id}/GetById`,
         method: "GET",
       }),
       providesTags: ["Sprinto"],
@@ -43,4 +43,8 @@ export const projectApi = createApi({
   }),
 });
 
-export const { useCreateProjectMutation, useProjectListQuery, useGetProjectByIdQuery } = projectApi;
+export const {
+  useCreateSprintMutation,
+  useSprintListQuery,
+  useGetSprintsByIdQuery,
+} = sprintApi;

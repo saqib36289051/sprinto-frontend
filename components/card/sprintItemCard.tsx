@@ -1,14 +1,14 @@
 'use client'
-import { ProjectType } from "@/types/types";
+import { SprintType } from "@/types/types";
 import React from "react";
 import { Label } from "../ui/label";
 import { Separator } from "../ui/separator";
 import { CircleCheckBig } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-type Props = ProjectType & {};
+type Props = SprintType & {};
 
-const ProjectItemCard = (props: Props) => {
+const SprintItemCard = (props: Props) => {
   const navigation = useRouter();
   return (
     <div
@@ -20,9 +20,10 @@ const ProjectItemCard = (props: Props) => {
         <CircleCheckBig size={16} color="green" />
       </div>
       <Separator className="mt-1 mb-2" />
-      <Label className="text-sm font-normal">{props?.description}</Label>
+      <Label className="text-sm font-normal">{props?.startDate.toString()}</Label>
+      <Label className="text-sm font-normal">{props?.endDate.toString()}</Label>
     </div>
   );
 };
 
-export default ProjectItemCard;
+export default SprintItemCard;

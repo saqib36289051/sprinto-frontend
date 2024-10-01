@@ -19,3 +19,10 @@ export type ProjectType = {
   updatedAt: string;
   members: [];
 };
+
+export type SprintType = {
+  id: string;
+  name: string;
+  startDate: Date;
+  endDate: Date;
+};

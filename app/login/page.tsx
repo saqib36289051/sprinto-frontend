@@ -23,7 +23,7 @@ const Login = (props: Props) => {
       const result = await login({ email, password });
       if (result?.data?.success) {
         await addData("user", result.data.loginUser);
-        router.replace("/main-page");
+        router.replace("/projects");
       }
     } catch (error) {
       console.log("🚀 ~ handleSubmit ~ error:", error);
