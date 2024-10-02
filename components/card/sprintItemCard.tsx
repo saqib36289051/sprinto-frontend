@@ -1,28 +1,56 @@
-'use client'
+"use client";
 import { SprintType } from "@/types/types";
 import React from "react";
 import { Label } from "../ui/label";
-import { Separator } from "../ui/separator";
-import { CircleCheckBig } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { formatDate } from "date-fns";
+import ReusableCard from "./reusableCard";
+import { useTaskListQuery } from "@/redux/services/taskApi";
 
-type Props = SprintType & {};
+type Props = SprintType & {
+  renderAddNewTask: any;
+};
 
 const SprintItemCard = (props: Props) => {
   const navigation = useRouter();
+  const { data, isLoading } = useTaskListQuery(props?.id);
   return (
-    <div
-      onClick={() => navigation.push(`/projects/${props?.id}`)}
-      className="shadow p-4 bg-white rounded-lg flex-col"
-    >
-      <div className="grid grid-cols-[1fr,0.1fr] items-center">
-        <Label className="text-sm line-clamp-2">{props?.name}</Label>
-        <CircleCheckBig size={16} color="green" />
-      </div>
-      <Separator className="mt-1 mb-2" />
-      <Label className="text-sm font-normal">{props?.startDate.toString()}</Label>
-      <Label className="text-sm font-normal">{props?.endDate.toString()}</Label>
-    </div>
+    <ReusableCard>
+      <ReusableCard.Header className="">
+        <div className="flex justify-between items-center">
+          <Label className="text-md line-clamp-1">{props?.name}</Label>
+          <div className="flex space-x-8 items-center">
+            <div className="space-x-2">
+              <Label className="text-sm font-normal">
+                {formatDate(props?.startDate, "dd LLL yy")}
+              </Label>
+              <Label className="text-sm italic font-light">to</Label>
+              <Label className="text-sm font-normal">
+                {formatDate(props?.endDate, "dd LLL yy")}
+              </Label>
+            </div>
+            {props.renderAddNewTask}
+          </div>
+        </div>
+      </ReusableCard.Header>
+      <ReusableCard.Body className=" space-x-2">
+        {data?.data?.map((task) => (
+          <div
+            key={task?.id}
+            className="flex justify-between items-center"
+            onClick={() => navigation.push(`/task/${task?.id}`)}
+          >
+            <Label className="text-sm font-normal line-clamp-1">
+              {task?.title}
+            </Label>
+
+            <Label className="text-sm font-normal line-clamp-1">
+              {task?.status}
+            </Label>
+          </div>
+        ))}
+      </ReusableCard.Body>
+    </ReusableCard>
   );
 };
 

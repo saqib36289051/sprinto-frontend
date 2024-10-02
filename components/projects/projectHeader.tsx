@@ -1,5 +1,5 @@
 import React from "react";
-import AddProjectDialog from "./addProjectDialog";
+import AddProjectDialog from "../form/addProjectDialog";
 import { Label } from "../ui/label";
 
 const ProjectHeader = () => {

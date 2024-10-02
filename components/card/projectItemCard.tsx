@@ -1,27 +1,21 @@
-'use client'
+"use client";
 import { ProjectType } from "@/types/types";
 import React from "react";
 import { Label } from "../ui/label";
-import { Separator } from "../ui/separator";
-import { CircleCheckBig } from "lucide-react";
 import { useRouter } from "next/navigation";
+import ReusableCard from "./reusableCard";
 
 type Props = ProjectType & {};
 
 const ProjectItemCard = (props: Props) => {
   const navigation = useRouter();
   return (
-    <div
-      onClick={() => navigation.push(`/projects/${props?.id}`)}
-      className="shadow p-4 bg-white rounded-lg flex-col"
-    >
-      <div className="grid grid-cols-[1fr,0.1fr] items-center">
-        <Label className="text-sm line-clamp-2">{props?.name}</Label>
-        <CircleCheckBig size={16} color="green" />
-      </div>
-      <Separator className="mt-1 mb-2" />
-      <Label className="text-sm font-normal">{props?.description}</Label>
-    </div>
+    <ReusableCard onClick={() => navigation.push(`/projects/${props?.id}`)}>
+      <ReusableCard.Header label={props?.name} />
+      <ReusableCard.Body>
+        <Label className="text-sm font-normal">{props?.description}</Label>
+      </ReusableCard.Body>
+    </ReusableCard>
   );
 };
 

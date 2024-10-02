@@ -3,6 +3,7 @@ import settingReducer from "@/redux/feature/settingSlice";
 import { authApi } from "@/redux/services/authApi";
 import { projectApi } from "@/redux/services/projectApi";
 import { sprintApi } from "./services/sprintApi";
+import { taskApi } from "./services/taskApi";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     [authApi.reducerPath]: authApi.reducer,
     [projectApi.reducerPath]: projectApi.reducer,
     [sprintApi.reducerPath]: sprintApi.reducer,
+    [taskApi.reducerPath]: taskApi.reducer,
   },
 
   middleware: (getDefaultMiddleware) =>
@@ -17,6 +19,7 @@ export const store = configureStore({
       authApi.middleware,
       projectApi.middleware,
       sprintApi.middleware,
+      taskApi.middleware,
     ]),
 });
 
