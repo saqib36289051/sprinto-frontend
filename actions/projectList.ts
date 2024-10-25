@@ -1,10 +1,10 @@
 "use server";
 
-import axiosServerInstance from "@/helper/axios/axios-serverside-instance"; 
+import axiosInstance from "@/helper/axios"; 
 
 export async function getAllProjects() {
   try {
-    const response = await axiosServerInstance.get(`/project`)
+    const response = await axiosInstance.get(`/project`)
     return response?.data
   } catch (error) {
     console.log("🚀 ~ getAllProjects ~ error:", error);

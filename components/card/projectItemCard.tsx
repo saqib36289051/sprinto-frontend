@@ -10,7 +10,7 @@ type Props = ProjectType & {};
 const ProjectItemCard = (props: Props) => {
   const navigation = useRouter();
   return (
-    <ReusableCard onClick={() => navigation.push(`/projects/${props?.id}`)}>
+    <ReusableCard onClick={() => navigation.push(`/project/${props?.id}`)}>
       <ReusableCard.Header label={props?.name} />
       <ReusableCard.Body>
         <Label className="text-sm font-normal">{props?.description}</Label>

@@ -13,7 +13,7 @@ const ProjectList = ({ projectsList }: Props) => {
   return (
     <div className="mt-10">
       <div className="grid grid-cols-4 gap-4">
-        {(projectsList ?? [])?.map((project: ProjectType) => {
+        {projectsList?.map((project: ProjectType) => {
           return <ProjectItemCard key={project.id} {...project} />;
         })}
       </div>
