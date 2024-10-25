@@ -1,3 +1,4 @@
+'use client'
 import React, { SetStateAction, useReducer, useState } from "react";
 import {
   Dialog,

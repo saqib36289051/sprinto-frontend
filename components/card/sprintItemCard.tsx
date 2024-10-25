@@ -15,6 +15,7 @@ import {
   SelectValue,
 } from "../ui/select";
 import { PRIORITIES, Status } from "@/constants/Enum";
+import axiosInstance from "@/helper/axios";
 
 type Props = SprintType & {
   renderAddNewTask: any;
@@ -22,7 +23,18 @@ type Props = SprintType & {
 
 const SprintItemCard = (props: Props) => {
   const navigation = useRouter();
-  const { data, isLoading } = useTaskListQuery(props?.id);
+  const [taskList, setTaskList] = React.useState<TaskType[]>([]);
+  console.log("🚀 ~ SprintItemCard ~ taskList:", taskList)
+  // const { data, isLoading } = useTaskListQuery(props?.id);
+  // const getAllTask = await getAllTasks(props?.id)
+
+  React.useEffect(() => {
+    (async () => {
+      const res  = await axiosInstance.get(`/task/${props?.id}`);
+      setTaskList(res?.data);
+    })()
+  }, [props?.id]);
+
   const statusList = [Status.TODO, Status.IN_PROGRESS, Status.DONE];
   const priorityList = [PRIORITIES.LOW, PRIORITIES.MEDIUM, PRIORITIES.HIGH];
   return (
@@ -45,7 +57,7 @@ const SprintItemCard = (props: Props) => {
         </div>
       </ReusableCard.Header>
       <ReusableCard.Body className="space-y-2 mt-4">
-        {data?.data?.map((task: TaskType) => (
+        {taskList?.data?.map((task: TaskType) => (
           <div
             key={task?.id}
             className="grid grid-cols-[1fr,0.5fr,0.3fr,0.3fr] gap-4 items-center border p-2 rounded-md"

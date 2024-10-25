@@ -1,17 +1,15 @@
 import React from "react";
 import SprintItemCard from "../card/sprintItemCard";
 import { SprintType } from "@/types/types";
-import { useSprintListQuery } from "@/redux/services/sprintApi";
 import AddTaskDialog from "../form/addTaskDialog";
 
 type Props = {
-  id: string;
+  sprintList: SprintType[];
 };
-const SprintList = (props: Props) => {
-  const { data, isLoading } = useSprintListQuery(props.id);
+const SprintList = ({sprintList}: Props) => {
   return (
     <div className="mt-10">
-      {data?.data?.map((sprint: SprintType) => {
+      {sprintList?.map((sprint: SprintType) => {
         return (
           <SprintItemCard
             key={sprint.id}

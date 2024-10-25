@@ -30,7 +30,7 @@ const Login = (props: Props) => {
       console.log("🚀 ~ handleSubmit ~ result:", result);
       setCookie("token", result.data?.loginUser?.token);
       setCookie("user", result?.data?.loginUser);
-      router.replace("/project");
+      router.replace("/projects");
       // const result = await login({ email, password });
       // if (result?.data?.success) {
       //   await addData("user", result.data.loginUser);
