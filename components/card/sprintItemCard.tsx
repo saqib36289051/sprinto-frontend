@@ -1,11 +1,20 @@
 "use client";
-import { SprintType } from "@/types/types";
+import { SprintType, TaskType } from "@/types/types";
 import React from "react";
 import { Label } from "../ui/label";
 import { useRouter } from "next/navigation";
 import { formatDate } from "date-fns";
 import ReusableCard from "./reusableCard";
 import { useTaskListQuery } from "@/redux/services/taskApi";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { PRIORITIES, Status } from "@/constants/Enum";
 
 type Props = SprintType & {
   renderAddNewTask: any;
@@ -14,6 +23,8 @@ type Props = SprintType & {
 const SprintItemCard = (props: Props) => {
   const navigation = useRouter();
   const { data, isLoading } = useTaskListQuery(props?.id);
+  const statusList = [Status.TODO, Status.IN_PROGRESS, Status.DONE];
+  const priorityList = [PRIORITIES.LOW, PRIORITIES.MEDIUM, PRIORITIES.HIGH];
   return (
     <ReusableCard>
       <ReusableCard.Header className="">
@@ -33,20 +44,64 @@ const SprintItemCard = (props: Props) => {
           </div>
         </div>
       </ReusableCard.Header>
-      <ReusableCard.Body className=" space-x-2">
-        {data?.data?.map((task) => (
+      <ReusableCard.Body className="space-y-2 mt-4">
+        {data?.data?.map((task: TaskType) => (
           <div
             key={task?.id}
-            className="flex justify-between items-center"
+            className="grid grid-cols-[1fr,0.5fr,0.3fr,0.3fr] gap-4 items-center border p-2 rounded-md"
             onClick={() => navigation.push(`/task/${task?.id}`)}
           >
             <Label className="text-sm font-normal line-clamp-1">
               {task?.title}
             </Label>
 
-            <Label className="text-sm font-normal line-clamp-1">
-              {task?.status}
-            </Label>
+            <Label className="text-sm font-normal">{task.assignedTo}</Label>
+
+            <div>
+              <Select
+                value={task.priority}
+                onValueChange={
+                  (value: PRIORITIES) => {}
+                  // setInputFields({ priority: value })
+                }
+              >
+                <SelectTrigger className="">
+                  <SelectValue placeholder="Assigned To" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    {priorityList.map((priority) => (
+                      <SelectItem key={priority} value={priority}>
+                        {priority}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div>
+              <Select
+                value={task.status}
+                onValueChange={
+                  (value: Status) => {}
+                  // setInputFields({ priority: value })
+                }
+              >
+                <SelectTrigger className="">
+                  <SelectValue placeholder="Status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    {statusList.map((status) => (
+                      <SelectItem key={status} value={status}>
+                        {status}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         ))}
       </ReusableCard.Body>

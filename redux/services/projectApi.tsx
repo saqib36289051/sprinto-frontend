@@ -1,6 +1,13 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL } from "@/redux";
 import useLocalStorage from "@/hooks/useLocalStorage";
+import { Action, PayloadAction } from "@reduxjs/toolkit";
+import { HYDRATE } from "next-redux-wrapper";
+
+type RootState = any;
+function isHydrateAction(action: Action): action is PayloadAction<RootState> {
+  return action.type === HYDRATE;
+}
 
 export const projectApi = createApi({
   reducerPath: "projectApi",
@@ -17,6 +24,11 @@ export const projectApi = createApi({
       return headers;
     },
   }),
+  extractRehydrationInfo(action, { reducerPath }): any {
+    if (isHydrateAction(action)) {
+      return action.payload[reducerPath];
+    }
+  },
   endpoints: (builder) => ({
     createProject: builder.mutation({
       query: (credentials) => ({
@@ -43,4 +55,9 @@ export const projectApi = createApi({
   }),
 });
 
-export const { useCreateProjectMutation, useProjectListQuery, useGetProjectByIdQuery } = projectApi;
+export const {
+  useCreateProjectMutation,
+  useProjectListQuery,
+  useGetProjectByIdQuery,
+  util: { getRunningQueriesThunk},
+} = projectApi;

@@ -6,7 +6,10 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useLoginMutation } from "@/redux/services/authApi";
 import useLocalStorage from "@/hooks/useLocalStorage";
-import "./page.scss"
+import "./page.scss";
+import axios from "axios";
+import { setCookie } from "cookies-next";
+import { BASE_URL } from "@/redux";
 
 type Props = {};
 
@@ -14,17 +17,24 @@ const Login = (props: Props) => {
   const router = useRouter();
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [login, { data, error, isLoading }] = useLoginMutation();
-  const { addData } = useLocalStorage();
+  // const [login, { data, error, isLoading }] = useLoginMutation();
+  // const { addData } = useLocalStorage();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const result = await login({ email, password });
-      if (result?.data?.success) {
-        await addData("user", result.data.loginUser);
-        router.replace("/projects");
-      }
+      const result = await axios.post(BASE_URL + "/auth/login", {
+        email,
+        password,
+      });
+      console.log("🚀 ~ handleSubmit ~ result:", result);
+      setCookie("token", result.data?.loginUser?.token);
+      setCookie("user", result?.data?.loginUser);
+      router.replace("/projects");
+      // const result = await login({ email, password });
+      // if (result?.data?.success) {
+      //   await addData("user", result.data.loginUser);
+      // }
     } catch (error) {
       console.log("🚀 ~ handleSubmit ~ error:", error);
     }
@@ -48,11 +58,11 @@ const Login = (props: Props) => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-            {error?.data?.fields?.email && (
+            {/* {error?.data?.fields?.email && (
               <p className="text-red-500 text-xs mt-1">
                 {error?.data?.fields?.email}
               </p>
-            )}
+            )} */}
           </div>
           <div>
             <Label className="block text-sm font-medium">Password</Label>
@@ -64,15 +74,16 @@ const Login = (props: Props) => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            {error?.data?.fields?.password && (
+            {/* {error?.data?.fields?.password && (
               <p className="text-red-500 text-xs mt-1">
                 {error?.data?.fields?.password}
               </p>
-            )}
+            )} */}
           </div>
           <div className="flex w-full mb-2">
             <Button type="submit" className="w-full">
-              {isLoading ? <div className="loader"></div> : "Login"}
+              Login
+              {/* {isLoading ? <div className="loader"></div> : "Login"} */}
             </Button>
           </div>
         </form>

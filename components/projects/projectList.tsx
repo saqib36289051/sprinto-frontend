@@ -3,14 +3,17 @@ import { ProjectType } from "@/types/types";
 import React from "react";
 import ProjectItemCard from "../card/projectItemCard";
 
-type Props = {};
+type Props = {
+  projectsList: ProjectType[] | null;
+};
 
-const ProjectList = (props: Props) => {
-  const { data: projectsList, isLoading, isSuccess } = useProjectListQuery({});
+const ProjectList = ({ projectsList }: Props) => {
+  // const { data: projectsList, isLoading, isSuccess } = useProjectListQuery({});
+  if (!projectsList) return <p>Loading...</p>;
   return (
     <div className="mt-10">
       <div className="grid grid-cols-4 gap-4">
-        {projectsList?.data?.map((project: ProjectType) => {
+        {(projectsList ?? [])?.map((project: ProjectType) => {
           return <ProjectItemCard key={project.id} {...project} />;
         })}
       </div>
